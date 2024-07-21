@@ -1,0 +1,94 @@
+const { Toast } = require("bootstrap");
+
+$(document).ready(function () {
+$("#agregar").click(function () {
+agregar();
+});
+});
+
+var cont = 0;
+total = 0;
+subtotal = [];
+
+$("#guardar").hide();
+
+function agregar() {
+id_producto = $("#id_producto").val();
+producto = $("#id_producto option:selected").text();
+cantidad = $("cantidad").val();
+precio = $("#precio").val();
+iva = $("#iva").val();
+
+if (id_producto != "" && cantidad != "" && cantidad > 0 && precio != "") {
+subtotal[cont] = cantidad * precio;
+total = total + subtotal[cont];
+var fila = '<tr class="selected" id="fila"' + cont + '"><td><button type=" button" class="btn btn-danger btn-sm"
+    onclick="eliminar(' + cont + '); "><i class="fa fa-times"></i></button></td>
+    <td><input type="hidden" name="id_producto[]" value="' + id_producto + '">' + producto + '</td>
+    <td><input type="hidden" id="precio[]" name="precio[]" value="' + precio + '"> <input class="form-control type="
+            number" id="precio[]" value="' + precio + '" disabled> </td>
+    <td> <input type="hidden" name="cantidad[]" value="' + cantidad + '"> <input class="form-control" type="number"
+            value="' + cantidad + '" disabled> </td>
+    <td align="right">s/' + subtotal[cont] + '</td>
+</tr>';
+cont++;
+limpiar();
+totales();
+evaluar();
+$('#detalles').append(fila);
+} else{
+Swal.fire({
+icon: "error",
+title: "Oops...",
+text: "Rellene todos los campos de la venta!",
+footer: <a href="{{route('compra.create')}}">Ingrese nuevamente</a>
+});
+}
+}
+
+function limpiar(){
+$("#cantidad").val("");
+$("#precio").val("");
+
+}
+
+function totales(){
+$("#total").html("PEN " + total.toFixed(2));
+total_impuesto = total * impuesto / 100;
+total_pagar = total + total_impuesto;
+$("#total_impuesto").html("PEN " + total_impuesto.toFixed(2));
+$("#total_pagar_html").html("PEN " + total_pagar.toFixed(2));
+$("#total_pagar").val(total_pagar.toFixed(2));
+}
+
+function evaluar(){
+if(total > 0){
+$("#guardar").show();
+}else{
+$("#guardar").hide();
+}
+}
+
+function eliminar(index){
+total = total-subtotal[index];
+total_impuesto = total*impuesto/100;
+total_pagar_html = total + total_impuesto;
+$("total").html("PEN" + total);
+$("total_impuesto").html("PEN" + total_impuesto);
+$("total_pagar_html").html("PEN" + total_pagar_html);
+$("total_pagar").val(total_pagar_html.toFixed(2));
+$("fila" + index).remove();
+
+}
+
+
+<tr class="selected" id="fila' + cont + '">
+    <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar('+cont+');"><i
+                class="fa fa-times fa-2x"></i></button></td>
+    <td><input type="hidden" name="id_producto[]" value="'+id_producto+'">'+producto+'</td>
+    <td><input type="hidden" name="precio[]" value="'+parseFloat(precio).toFixed(2)+'"><input type="number"
+            class="form-control" value="'+ parseFloat(precio).toFixed(2) +'" disabled> </td>
+    <td><input type="hidden" name="descuento[]" value="'+parseFloat(descuento)+'"> <input type="number" class="form-control" value="'+parseFloat(descuento)+'" disabled></td>
+    <td><input type="hidden" name="cantidad[]" value="'+cantidad+'"> <input type="number" value="'+cantidad+'" class="form-control" disabled></td>
+    <td align="right">$'+parseFloat(subtotal[cont]).toFixed(2)+'</td>
+</tr>
