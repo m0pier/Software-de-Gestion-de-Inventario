@@ -37,9 +37,6 @@ class ReportController extends Controller
         // Obtener las ventas dentro del rango de fechas
         $ventas = Venta::whereBetween('fecha_venta', [$fi, $ff])->get();
 
-        // Depurar las ventas para verificar que se obtienen correctamente
-        // dd($ventas);
-
         // Calcular el total de las ventas
         $total = $ventas->sum('total');
 
