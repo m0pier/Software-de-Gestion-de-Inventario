@@ -47,7 +47,6 @@
                             <i class="fas fa-list"></i>
                         </div>
                     </x-slot>
-                    <option value="12">12</option>
                     <option value="15">15</option>
                 </x-adminlte-select>
                 {{-- Cantidad --}}
