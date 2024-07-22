@@ -141,7 +141,7 @@
             </tr>
             <tr>
                 <td><strong>Total:</strong></td>
-                <td id="total_price">{{ number_format($subtotal*$compra->iva,2) }}</td>
+                <td id="total_price">{{ number_format($compra->total,2) }}</td>
             </tr>
         </table>
     </div>
