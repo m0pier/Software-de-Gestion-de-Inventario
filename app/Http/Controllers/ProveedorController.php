@@ -128,6 +128,9 @@ class ProveedorController extends Controller
     public function destroy(string $id)
     {
         $proveedor = Proveedor::find($id);
+        if ($proveedor->productos()->exists()) {
+            return back()->with('error', 'No puedes eliminar un proveedor que tiene un producto habilitado.');
+        }
 
         $proveedor->delete();
 

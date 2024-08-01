@@ -10,9 +10,9 @@
     <p>Aquí puedes visualizar la lista de Ventas</p>
     <div class="card">
         <div class="card-head">
-            @if (session('error') == 'No puedes eliminar un producto que tiene stock o su estado esta activo.')
+            @if (session('error') == 'ok')
                 <x-adminlte-alert class="bg-danger text-uppercase" icon="fa fa-exclamation-triangle" title="Error" dismissable>
-                    No puedes eliminar un producto que tiene stock o su estado esta activo.
+                    No se puede eliminar la compra porque algunos productos tienen ventas asociadas.
                 </x-adminlte-alert>
             @endif
         </div>

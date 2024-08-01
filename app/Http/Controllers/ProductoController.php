@@ -148,7 +148,7 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
 
-        // Verificar si el auto tiene un despacho asociado y si está despachado
+        // Verificar si el producto tiene stock
         if ($producto->stock >= 1 && $producto->status == 1) {
             return back()->with('error', 'No puedes eliminar un producto que tiene stock o su estado esta activo.');
         }

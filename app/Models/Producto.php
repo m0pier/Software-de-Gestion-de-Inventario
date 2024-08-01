@@ -18,4 +18,8 @@ class Producto extends Model
     public function proveedor(){
         return $this->belongsTo(Proveedor::class, 'id_proveedor');
     }
+
+    public function Detalleventa(){
+        return $this->hasMany(DetalleVenta::class, 'id_producto');
+    }
 }

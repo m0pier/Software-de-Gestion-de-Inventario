@@ -91,6 +91,9 @@ class ClienteController extends Controller
     public function destroy(string $id)
     {
         $cliente = Cliente::find($id);
+        if ($cliente->venta()->exists()) {
+            return back()->with('error', 'ok');
+        }
         $cliente->delete();
         return back();
     }

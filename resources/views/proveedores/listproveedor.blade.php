@@ -9,6 +9,14 @@
 @section('content')
     <p>Aquí puedes visualizar la lista de Proveedores</p>
     <div class="card">
+        <div class="card-head">
+            @if (session('error') == 'No puedes eliminar un proveedor que tiene un producto habilitado.')
+                <x-adminlte-alert class="bg-danger text-uppercase" icon="fa fa-exclamation-triangle" title="Error"
+                    dismissable>
+                    No puedes eliminar un proveedor que tenga un producto activo.
+                </x-adminlte-alert>
+            @endif
+        </div>
         <div class="card-body">
             {{-- Setup data for datatables --}}
             @php

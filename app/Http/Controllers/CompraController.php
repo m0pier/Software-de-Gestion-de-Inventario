@@ -69,14 +69,28 @@ class CompraController extends Controller
 
     public function changeStatus(Compra $compra)
     {
+        // Obtener los detalles de la compra
+        $detallesCompra = $compra->detallecompra;
+
+        foreach ($detallesCompra as $detalle) {
+            $producto = Producto::find($detalle->id_producto);
+
+            // Verificar si el producto tiene ventas asociadas
+            if ($producto->Detalleventa()->exists()) {
+                return back()->with('error', 'ok');
+            }
+        }
+
+        // Si no hay ventas asociadas, proceder a cambiar el estado de la compra
         if ($compra->status == 0) {
             $compra->update(['status' => '1']);
-            return back();
         } else {
             $compra->update(['status' => '0']);
-            return back();
         }
+
+        return back();
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -104,8 +118,8 @@ class CompraController extends Controller
             $subtotal += $comprasDetalle->cantidad * $comprasDetalle->precio;
         }
 
-        $pdf = FacadePdf::loadView('compras.pdf-compra', compact('subtotal', 'comprasDetalles', 'compra') );
-        return $pdf->download('Reporte_de_compra_'.$compra->id.'.pdf');
+        $pdf = FacadePdf::loadView('compras.pdf-compra', compact('subtotal', 'comprasDetalles', 'compra'));
+        return $pdf->download('Reporte_de_compra_' . $compra->id . '.pdf');
     }
 
     /**
@@ -115,8 +129,15 @@ class CompraController extends Controller
     {
         $compra = Compra::find($id);
 
-        if ($compra->status == 1) {
-            return back()->with('error', 'No puedes eliminar un producto que tiene stock o su estado esta activo.');
+        $detallesCompra = $compra->detallecompra;
+
+        foreach ($detallesCompra as $detalle) {
+            $producto = Producto::find($detalle->id_producto);
+
+            // Verificar si el producto tiene ventas asociadas
+            if ($producto->Detalleventa()->exists()) {
+                return back()->with('error', 'ok');
+            }
         }
 
         $compra->delete();

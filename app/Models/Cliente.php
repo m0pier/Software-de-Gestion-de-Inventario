@@ -16,4 +16,8 @@ class Cliente extends Model
     public function productos(){
         return $this->hasMany(Producto::class);
     }
+
+    public function venta(){
+        return $this->hasMany(Venta::class, 'id_cliente');
+    }
 }

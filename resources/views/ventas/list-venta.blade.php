@@ -13,7 +13,7 @@
             @if (session('error') == 'No puedes eliminar un producto que tiene stock o su estado esta activo.')
                 <x-adminlte-alert class="bg-danger text-uppercase" icon="fa fa-exclamation-triangle" title="Error"
                     dismissable>
-                    No puedes eliminar un producto que su estado este activo.
+                    No puedes eliminar una venta en la cual su estado sea activo.
                 </x-adminlte-alert>
             @endif
         </div>

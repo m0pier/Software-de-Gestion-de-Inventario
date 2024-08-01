@@ -9,6 +9,14 @@
 @section('content')
     <p>Aquí puedes visualizar la lista de clientes</p>
     <div class="card">
+        <div class="card-head">
+            @if (session('error') == 'ok')
+                <x-adminlte-alert class="bg-danger text-uppercase" icon="fa fa-exclamation-triangle" title="Error"
+                    dismissable>
+                    No puedes eliminar un cliente que tenga una venta.
+                </x-adminlte-alert>
+            @endif
+        </div>
         <div class="card-body">
             {{-- Setup data for datatables --}}
             @php
